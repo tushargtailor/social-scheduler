@@ -18,14 +18,14 @@ const Sidebar = ({
     logout: () => {
       window.location.href = "/";
     },
-    user: { name: "Jonh Doe", email: "jonhdoe@example.com" },
+    user: { name: "John Doe", email: "jonhdoe@example.com" },
   };
 
   const location = useLocation();
   const navItems = [
     { name: "Dashboard", icon: LayoutDashboardIcon, path: "/dashboard" },
     { name: "Accounts", icon: UsersIcon, path: "/accounts" },
-    { name: "scheduler", icon: CalendarDaysIcon, path: "/schedule" },
+    { name: "Scheduler", icon: CalendarDaysIcon, path: "/schedule" },
     { name: "AI Composer", icon: Wand2Icon, path: "/ai-composer" },
   ];
 
@@ -77,7 +77,7 @@ const Sidebar = ({
       {/* User Footer*/}
       <div className="p-4 border-t border-slate-100">
         <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors">
-          <div className="size-8 rounded-full bg-linear-to-br from-red-400 to-pink-400 flex items-center justify-center text-white text-sm font-medium shrink-0">
+          <div className="size-8 rounded-full bg-gradient-to-br from-red-400 to-pink-400 flex items-center justify-center text-white text-sm font-medium shrink-0">
             {user?.name?.charAt(0).toUpperCase() || "U"}
           </div>
 
