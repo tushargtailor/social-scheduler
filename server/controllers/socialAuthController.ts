@@ -11,10 +11,10 @@ const getOrCreateZernioProfile = async (user: any): Promise<string> => {
     const data = result.data as any;
     const profiles: any[] = Array.isArray(data)
       ? data
-      : data?.profilles || data?.data || [];
+      : data?.profiles || data?.data || [];
 
     if (profiles.length > 0) {
-      const pid = profiles[0]._id || profiles[0]._id;
+      const pid = profiles[0]._id || profiles[0].id;
       await User.findByIdAndUpdate(user._id, { zernioProfileId: pid });
       return pid;
     }
@@ -131,6 +131,9 @@ export const syncAccounts = async (
       );
       syncedAccounts.push(account);
     }
+
+    console.log("Zernio profile ID:", profileId);
+    console.log("Zernio accounts:", JSON.stringify(zernioAccounts, null, 2));
     res.json(syncedAccounts);
   } catch (error: any) {
     res.status(500).json({ message: error?.message || "Server error" });
