@@ -16,7 +16,8 @@ import toast from "react-hot-toast";
 const AIComposer = () => {
   const [prompt, setPrompt] = useState("");
   const [tone, setTone] = useState("Professional");
-  const [generateImage, setGenerateImage] = useState(true);
+  // const [generateImage, setGenerateImage] = useState(true);
+  const generateImage = false;
   const [loading, setLoading] = useState(false);
   const [generations, setGenerations] = useState<any[]>([]);
 
@@ -29,10 +30,10 @@ const AIComposer = () => {
 
   const fetchGenerations = async () => {
     try {
-      const {data} = await api.get("api/posts/generations")
-      setGenerations(data)
-    } catch (error:any) {
-      toast.error(error?.response?.data?.message || error?.message)
+      const { data } = await api.get("api/posts/generations");
+      setGenerations(data);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error?.message);
     }
   };
 
@@ -41,36 +42,42 @@ const AIComposer = () => {
   }, []);
 
   const handleGenerate = async () => {
-    if(!prompt){
+    if (!prompt) {
       toast.error("Please enter a prompt");
       return;
     }
-    setLoading(true)
+    setLoading(true);
     try {
-      const {data} = await api.post("/api/posts/generate", {prompt, tone, generateImage});
+      const { data } = await api.post("/api/posts/generate", {
+        prompt,
+        tone,
+        generateImage,
+      });
       setGenerations([data, ...generations]);
-      setActiveScheduler(data)
-      toast.success("Content generated!")
+      setActiveScheduler(data);
+      toast.success("Content generated!");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || error?.message);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSchedule = async () => {
-    if(!activeScheduler) return;
-    if(selectedPlatforms.length === 0){
+    if (!activeScheduler) return;
+    if (selectedPlatforms.length === 0) {
       toast.error("Select at least one platform");
-      return
+      return;
     }
-    if(!scheduledDate || !scheduledTime){
-      toast.error("Select date and time")
+    if (!scheduledDate || !scheduledTime) {
+      toast.error("Select date and time");
       return;
     }
 
-    const scheduledFor = new Date(`${scheduledDate}T${scheduledTime}`).toISOString()
-    setScheduling(true)
+    const scheduledFor = new Date(
+      `${scheduledDate}T${scheduledTime}`,
+    ).toISOString();
+    setScheduling(true);
     try {
       await api.post("/api/posts", {
         content: activeScheduler.content,
@@ -79,15 +86,15 @@ const AIComposer = () => {
         platforms: selectedPlatforms,
         scheduledFor,
         status: "scheduled",
-      })
-        toast.success("AI Post scheduled!")
-        setActiveScheduler(null)
-        setSelectedPlatforms([]);
-        setScheduledDate("");
-        setScheduledTime("");
+      });
+      toast.success("AI Post scheduled!");
+      setActiveScheduler(null);
+      setSelectedPlatforms([]);
+      setScheduledDate("");
+      setScheduledTime("");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to schedule");
-    }finally{
+    } finally {
       setScheduling(false);
     }
   };
@@ -110,15 +117,21 @@ const AIComposer = () => {
           />
           <div className="absolute bottom-4 right-2.5 flex items-center gap-3 text-sm">
             <button
-              onClick={() => setGenerateImage(!generateImage)}
+              onClick={() =>
+                toast("AI image generation will be available soon!")
+              }
+              // onClick={() => setGenerateImage(!generateImage)}
               className="flex items-center gap-3 bg-red-50 py-2 px-3 rounded-lg"
             >
               <span>AI Image</span>
               <div
-                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${generateImage ? "bg-red-500" : "bg-slate-200"}`}
+                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none bg-slate-200`}
+                //  ${generateImage ? "bg-red-500" : "bg-slate-200"}
               >
                 <span
-                  className={`pointer-events-none size-4 transform translate-y-0.5 rounded-full bg-white transition ${generateImage ? "translate-x-4.5" : "translate-x-0.5"} `}
+                  className={`pointer-events-none size-4 transform translate-y-0.5 rounded-full bg-white transition translate-x-0.5 
+                    `}
+                  // ${generateImage ? "translate-x-4.5" : "translate-x-0.5"}
                 />
               </div>
             </button>

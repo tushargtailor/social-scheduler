@@ -18,7 +18,7 @@ await connectDB();
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("Server is Live!");
@@ -39,6 +39,6 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).send(err?.response?.date?.message || err?.message);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server is running on port ${port}`);
 });

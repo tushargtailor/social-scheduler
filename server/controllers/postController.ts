@@ -70,7 +70,7 @@ export const generatePost = async (
 
     // Generate Text
     const textResponse = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.6-flash",
       contents: `Generate a social media post based on this prompt: "${prompt}".
       Tone: ${tone}.
       Include relevant hashtags.
