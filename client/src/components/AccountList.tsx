@@ -37,7 +37,7 @@ const AccountList = ({ accounts, onDisconnect }: AccountListProps) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {accounts.map((account, index) => {
+      {accounts.map((account) => {
         const meta = PLATFORMS.find((p) => p.id === account.platform);
         if (!meta) return null;
 
